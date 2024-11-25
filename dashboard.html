@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.6/index.global.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.6/index.global.min.js"></script>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(145deg, #1e1e2d, #252545);
+            color: #ffffff;
+            overflow-x: hidden;
+            background: url('photo-1569470451072-68314f596aec.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        header {
+            background-color: #227ad7;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        header h1 {
+            color: white;
+            font-size: 24px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #2a2a3b;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar button {
+            width: 100%;
+            padding: 12px;
+            background: #227ad7;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .sidebar button:hover {
+            transform: translateY(-8px) rotateX(10deg) rotateY(10deg);
+            background: #1a5ba3;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+
+        /* Digital Clock */
+        .digital-clock {
+            font-size: 3em;
+            text-align: center;
+            color: #ffeb3b;
+            margin: 20px 0;
+        }
+
+        /* Timer */
+        .timer {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .timer input {
+            width: 60px;
+            padding: 10px;
+            font-size: 1.2em;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .timer button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #227ad7;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        /* Performance Graph */
+        canvas {
+            max-width: 100%;
+        }
+        /* Profile Section */
+.profile {
+    text-align: center;
+    padding: 20px;
+}
+
+.profile img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #227ad7;
+    box-shadow: 0 4px 6px rgba(17, 17, 17, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+}
+
+.profile h2 {
+    font-size: 1.6em;
+    margin-top: 10px;
+    color: #ffeb3b;
+}
+
+.profile input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.profile button {
+    padding: 10px 20px;
+    background-color: #227ad7;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.profile button:hover {
+    background-color: #1a5ba3;
+}
+/* Task Circles */
+.tasks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.task-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #227ad7, #1a5ba3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.task-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Completed Task Style */
+.task-circle.completed {
+    background: linear-gradient(145deg, #4caf50, #388e3c);
+    color: #ffffff;
+    text-decoration: line-through;
+}
+
+/* Delete and Complete Buttons */
+.task-circle .action-btn {
+    position: absolute;
+    bottom: 5px;
+    width: 50px;
+    height: 25px;
+    font-size: 0.8em;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.task-circle .delete-btn {
+    right: 5px;
+    background: #ff3b3b;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.task-circle .delete-btn:hover {
+    transform: scale(1.1);
+    background-color: #d32f2f;
+}
+
+.task-circle .complete-btn {
+    left: 5px;
+    background: #4caf50;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.task-circle .complete-btn:hover {
+    transform: scale(1.1);
+    background-color: #388e3c;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+    </header>
+    <aside class="sidebar">
+        <button onclick="showSection('clock-section')">Clock & Timer</button>
+        <button onclick="showSection('calendar-section')">Calendar</button>
+        <button onclick="showSection('tasks-section')">Tasks</button>
+        <button onclick="showSection('profile-section')">Profile</button>
+        <button onclick="showSection('performance-section')">Performance</button>
+    </aside>
+    <main class="main-content">
+        <!-- Clock Section -->
+        <section id="clock-section" class="section">
+            <h2>Digital Clock</h2>
+            <div class="digital-clock" id="digital-clock"></div>
+
+            <h2>Timer</h2>
+            <div class="timer">
+                <input type="number" id="hours" placeholder="HH" min="0" />
+                <input type="number" id="minutes" placeholder="MM" min="0" max="59" />
+                <input type="number" id="seconds" placeholder="SS" min="0" max="59" />
+                <br />
+                <button onclick="startTimer()">Start</button>
+                <button onclick="resetTimer()">Reset</button>
+            </div>
+            <div class="digital-clock" id="timer-display">00:00:00</div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section id="calendar-section" class="section">
+            <h2>Calendar</h2>
+            <div id="calendar" class="calendar"></div>
+        </section>
+
+        <!-- Tasks Section -->
+        <section id="tasks-section" class="section">
+            <h2>Task Manager</h2>
+            <form class="task-form" onsubmit="addTask(event)">
+                <input type="text" id="task-input" placeholder="Enter your task" required />
+                <button type="submit">Add Task</button>
+            </form>
+            <div class="tasks" id="task-list"></div>
+        </section>
+        
+        
+
+        <!-- Profile Section -->
+<section id="profile-section" class="section">
+    <div class="profile">
+        <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile" />
+        <h2 id="profile-name">Profile pic </h2>
+        <input type="text" id="profile-name-input" placeholder="Enter your name" />
+        <input type="email" id="profile-email-input" placeholder="Enter your email" />
+        <button onclick="updateProfile()">Update Profile</button>
+    </div>
+</section>
+
+
+        <!-- Performance Graph -->
+        <section id="performance-section" class="section">
+            <h2>Performance Tracker</h2>
+            <canvas id="performance-chart"></canvas>
+        </section>
+    </main>
+
+    <script>
+        // Digital Clock
+        function updateDigitalClock() {
+            const clockElement = document.getElementById("digital-clock");
+            const now = new Date();
+            clockElement.innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateDigitalClock, 1000);
+
+        // Timer Functionality
+        let timerInterval;
+        let timerSecondsRemaining = 0;
+
+        function startTimer() {
+            const hours = parseInt(document.getElementById("hours").value) || 0;
+            const minutes = parseInt(document.getElementById("minutes").value) || 0;
+            const seconds = parseInt(document.getElementById("seconds").value) || 0;
+
+            timerSecondsRemaining = hours * 3600 + minutes * 60 + seconds;
+
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                if (timerSecondsRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Timer ended!");
+                } else {
+                    timerSecondsRemaining--;
+                    displayTimer();
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerSecondsRemaining = 0;
+            displayTimer();
+        }
+
+        function displayTimer() {
+            const hours = Math.floor(timerSecondsRemaining / 3600);
+            const minutes = Math.floor((timerSecondsRemaining % 3600) / 60);
+            const seconds = timerSecondsRemaining % 60;
+
+            document.getElementById("timer-display").innerText =
+                `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+        }
+
+        // Calendar
+        document.addEventListener("DOMContentLoaded", function () {
+            const calendarEl = document.getElementById("calendar");
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                events: [],
+            });
+            calendar.render();
+        });
+
+        // Task Manager
+function addTask(event) {
+    event.preventDefault();
+
+    // Get the task input value
+    const taskInput = document.getElementById('task-input');
+    const taskValue = taskInput.value.trim();
+
+    // Create a new task circle
+    if (taskValue) {
+        const taskCircle = document.createElement('div');
+        taskCircle.classList.add('task-circle');
+        taskCircle.innerHTML = `
+            ${taskValue}
+            <button class="action-btn complete-btn" onclick="completeTask(this)">✔</button>
+            <button class="action-btn delete-btn" onclick="deleteTask(this)">✖</button>
+        `;
+
+        // Append the task to the task list
+        document.getElementById('task-list').appendChild(taskCircle);
+
+        // Clear the input field
+        taskInput.value = '';
+    }
+}
+
+// Delete Task
+function deleteTask(button) {
+    const taskCircle = button.parentElement;
+    taskCircle.remove();
+}
+
+// Complete Task
+function completeTask(button) {
+    const taskCircle = button.parentElement;
+    taskCircle.classList.toggle('completed');
+}
+
+        
+
+       // Profile Update
+       function updateProfile() {
+            const nameInput = document.getElementById("profile-name-input");
+            const emailInput = document.getElementById("profile-email-input");
+            document.getElementById("profile-name").innerText = nameInput.value || "PROFILE PIC";
+            nameInput.value = "";
+            emailInput.value = "";
+        }
+
+
+
+        // 3D Button for Dashboard
+        function showSection(id) {
+            document.querySelectorAll(".section").forEach((section) => {
+                section.style.display = section.id === id ? "block" : "none";
+            });
+        }
+
+        // Performance Graph
+        const ctx = document.getElementById('performance-chart').getContext('2d');
+        const performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Performance over the Week',
+                    data: [12, 19, 3, 5, 2, 3, 9],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+

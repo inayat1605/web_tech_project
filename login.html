@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #3b8d99, #6b6b83);
+            background: url('still-life-colorful-overloaded-bullet-journal.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            perspective: 1000px;
+        }
+
+        /* 3D Login Card Container */
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: rotateY(0deg) rotateX(-5deg);
+            animation: popIn 1.2s ease-out;
+            transform-origin: center;
+        }
+
+        .login-container:hover {
+            transform: rotateY(5deg) rotateX(0deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s, box-shadow 0.5s;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0px 6px 12px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #227ad7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .toggle-password {
+            background: none;
+            border: none;
+            color: #227ad7;
+            cursor: pointer;
+            font-size: 14px;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Animation Effects */
+        @keyframes popIn {
+            from {
+                transform: scale(0.8) rotateY(-20deg) rotateX(-10deg);
+                opacity: 0;
+            }
+            to {
+                transform: rotateY(0deg) rotateX(-5deg);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .login-container {
+                transform: rotateY(0deg) rotateX(0deg);
+                padding: 20px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <form id="login-form" method="post" action="login.php">
+            <h2>Login</h2>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group" style="position: relative;">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile with 3D Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('WhatsApp Image 2024-11-21 at 18.15.33_c49318b3.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        header {
+            background-color: rgba(34, 122, 215, 0.8);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .logo {
+            height: 50px;
+            transition: transform 0.5s;
+        }
+
+        .logo:hover {
+            transform: rotateY(360deg);
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            transform: translateY(100px);
+            animation: slideIn 1.5s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #227ad7;
+        }
+
+        .profile-pic-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            border: 2px solid #227ad7;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .profile-pic:hover {
+            transform: rotateY(360deg);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #227ad7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1) translateZ(10px);
+        }
+
+        .scroll-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .scroll-button {
+            background-color: #227ad7;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 20px;
+            text-align: center;
+            line-height: 50px;
+            transition: transform 0.3s;
+            animation: bounce 1.5s infinite;
+        }
+
+        .scroll-button:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Screenshot 2024-11-23 155137.png" alt="Website Logo" class="logo">
+    </header>
+    <main class="profile-container">
+        <h1>Edit Profile</h1>
+        <div class="profile-pic-container">
+            <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="Profile Picture" class="profile-pic">
+        </div>
+        <form method="post" action="update_profile.php" enctype="multipart/form-data">
+            <label for="profile_pic">Update Profile Picture:</label>
+            <input type="file" id="profile_pic" name="profile_pic">
+        
+            <label for="username">Name:</label>
+            <input type="text" id="username" name="username" value="[User Name]" required>
+        
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="[User Email]" required>
+        
+            <button type="submit">Update Profile</button>
+        </form>
+        
+    </main>
+
+    
+
+    <script>
+        function scrollUp() {
+            window.scrollBy({
+                top: -200,
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollDown() {
+            window.scrollBy({
+                top: 200,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
+
+

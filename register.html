@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - 3D Animation</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1d1e22;
+            margin: 0;
+            padding: 0;
+            background-image: url(register2.jpg);
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            perspective: 1000px; /* Adds depth for 3D animations */
+        }
+
+        .register-container {
+            width: 400px;
+            padding: 30px;
+            background: linear-gradient(145deg, #2c2f34, #1a1b1d);
+            border-radius: 10px;
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5), -8px -8px 20px rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d; /* Enables child elements to inherit 3D effect */
+            animation: float 4s infinite ease-in-out;
+            transition: transform 0.5s;
+        }
+
+        .register-container:hover {
+            transform: rotateY(10deg) rotateX(-5deg); /* 3D rotation on hover */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0px 0px 10px #00ffcc;
+        }
+
+        p {
+            text-align: center;
+            color: #bbbbbb;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            color: #dddddd;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            background: #2c2f34;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.5), inset -3px -3px 8px rgba(255, 255, 255, 0.05);
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            outline: none;
+            background: #3a3d42;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(145deg, #00ffcc, #007bff);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5), -3px -3px 8px rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05); /* Hover effect */
+            background: linear-gradient(145deg, #007bff, #00ffcc);
+        }
+
+        #error-messages {
+            color: #ff4d4d;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        /* Keyframe for floating animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(-10px);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <form id="register-from" method="post" action="register.php">
+        <h2>Create an Account</h2>
+        <p>Please fill in this form to create an account.</p>
+        <!-- Display any error messages -->
+        <div id="error-messages"></div>
+
+        <form id="registerForm">
+            <!-- Username Input -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+
+            <!-- Password Input -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button type="submit" class="btn">Register</button>
+            </div>
+
+            <p>Already have an account? <a href="login.html" style="color: #00ffcc; text-decoration: none;">Login here</a>.</p>
+
+        </form>
+    </div>
+
+    <script>
+        // JavaScript for form validation
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form from submitting immediately
+
+            let errorMessages = [];
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let confirmPassword = document.getElementById("confirm_password").value.trim();
+
+            // Validate username
+            if (username === "") {
+                errorMessages.push("Username is required.");
+            }
+
+            // Validate password
+            if (password === "") {
+                errorMessages.push("Password is required.");
+            } else if (password.length < 6) {
+                errorMessages.push("Password must be at least 6 characters long.");
+            }
+
+            // Validate confirm password
+            if (confirmPassword === "") {
+                errorMessages.push("Please confirm your password.");
+            } else if (password !== confirmPassword) {
+                errorMessages.push("Passwords do not match.");
+            }
+
+            // Display errors if any
+            if (errorMessages.length > 0) {
+                document.getElementById("error-messages").innerHTML = errorMessages.join("<br>");
+            } else {
+                // If no errors, you can submit the form or send data via AJAX
+                alert("Form submitted successfully!");
+                document.getElementById("registerForm").reset(); // Reset the form
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
